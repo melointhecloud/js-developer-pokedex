@@ -1,4 +1,4 @@
-// Elementos do DOM
+
 const pokemonList = document.getElementById('pokemonList')
 const searchInput = document.getElementById('searchInput')
 const themeToggle = document.getElementById('themeToggle')
@@ -9,7 +9,7 @@ const compareModal = document.getElementById('compareModal')
 const modalContent = document.getElementById('modalContent')
 const compareContent = document.getElementById('compareContent')
 
-// Variáveis globais
+
 const maxRecords = 151
 const limit = 10
 let offset = 0
@@ -19,62 +19,60 @@ let favorites = JSON.parse(localStorage.getItem('pokemonFavorites') || '[]')
 let selectedPokemons = []
 let currentTheme = localStorage.getItem('theme') || 'light'
 
-// Variáveis globais para comparação
+
 let compareSearchModal = document.getElementById('compareSearchModal')
 let compareSearchInput = document.getElementById('compareSearchInput')
 let compareSearchResults = document.getElementById('compareSearchResults')
 let firstPokemonForCompare = null
 let secondPokemonForCompare = null
 
-// Adicionar variáveis para scroll infinito
+
 let isLoading = false
 let hasMorePokemons = true
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     initializeTheme()
     loadPokemonItens(offset, limit)
     setupEventListeners()
 })
 
-// Configuração dos event listeners
 function setupEventListeners() {
-    // Busca
+    
     searchInput.addEventListener('input', handleSearch)
     
-    // Tema
+    
     themeToggle.addEventListener('click', toggleTheme)
     
-    // Filtros
+    
     favoritesFilter.addEventListener('click', () => setActiveFilter('all'))
     favoritesOnly.addEventListener('click', () => setActiveFilter('favorites'))
     
-    // Modais
+   
     document.querySelectorAll('.close').forEach(closeBtn => {
         closeBtn.addEventListener('click', closeModals)
     })
     
-    // Fechar modal ao clicar fora
+   
     window.addEventListener('click', (event) => {
         if (event.target.classList.contains('modal')) {
             closeModals()
         }
     })
 
-    // Compare search
+   
     compareSearchInput.addEventListener('input', handleCompareSearch)
 
-    // Adicionar scroll listener
+   
     window.addEventListener('scroll', handleInfiniteScroll)
 }
 
-// Inicializar tema
+
 function initializeTheme() {
     document.documentElement.setAttribute('data-theme', currentTheme)
     updateThemeIcon()
 }
 
-// Alternar tema
+
 function toggleTheme() {
     currentTheme = currentTheme === 'light' ? 'dark' : 'light'
     document.documentElement.setAttribute('data-theme', currentTheme)
@@ -82,7 +80,7 @@ function toggleTheme() {
     updateThemeIcon()
 }
 
-// Atualizar ícone do tema
+
 function updateThemeIcon() {
     const icon = themeToggle.querySelector('i')
     if (currentTheme === 'dark') {
@@ -92,7 +90,7 @@ function updateThemeIcon() {
     }
 }
 
-// Função auxiliar para buscar um pokémon pelo nome na PokéAPI
+
 function fetchPokemonByName(name) {
     return fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`)
         .then(res => {
@@ -103,7 +101,7 @@ function fetchPokemonByName(name) {
         .catch(() => null);
 }
 
-// Busca
+
 async function handleSearch() {
     const searchTerm = searchInput.value.toLowerCase().trim();
     if (!searchTerm) {
@@ -115,7 +113,7 @@ async function handleSearch() {
     let found = allPokemons.filter(pokemon => 
         pokemon.name.toLowerCase().includes(searchTerm)
     );
-    // Se não encontrou, tenta buscar na API
+    
     if (found.length === 0) {
         const fetched = await fetchPokemonByName(searchTerm);
         if (fetched && !allPokemons.some(p => p.number === fetched.number)) {
@@ -127,7 +125,7 @@ async function handleSearch() {
     renderPokemons();
 }
 
-// Definir filtro ativo
+
 function setActiveFilter(filter) {
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'))
     event.target.classList.add('active')
@@ -140,7 +138,7 @@ function setActiveFilter(filter) {
     renderPokemons()
 }
 
-// Carregar Pokémons
+
 function loadPokemonItens(offset, limit) {
     showLoading()
     pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
@@ -151,7 +149,7 @@ function loadPokemonItens(offset, limit) {
     })
 }
 
-// Função para revelar cards ao rolar a página
+
 function revealOnScroll() {
     const cards = document.querySelectorAll('.pokemon');
     const windowHeight = window.innerHeight;
@@ -163,17 +161,17 @@ function revealOnScroll() {
     });
 }
 
-// Revele ao carregar e ao rolar
+
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('resize', revealOnScroll);
 document.addEventListener('DOMContentLoaded', revealOnScroll);
 
-// Função utilitária para checar se há scroll vertical
+
 function hasVerticalScroll() {
     return document.documentElement.scrollHeight > document.documentElement.clientHeight;
 }
 
-// Atualizar renderPokemons para chamar revealOnScroll ao final e carregar mais pokémons se necessário
+
 function renderPokemons() {
     const searchTerm = searchInput.value.toLowerCase().trim()
     const activeFilter = document.querySelector('.filter-btn.active').dataset.filter
@@ -195,17 +193,17 @@ function renderPokemons() {
     const newHtml = pokemonsToRender.map(convertPokemonToLi).join('')
     pokemonList.innerHTML = newHtml
     
-    // Adicionar event listeners aos cards
+    
     addCardEventListeners()
-    // Chamar scroll reveal
+    
     revealOnScroll();
-    // Se não houver scroll e ainda houver mais pokémons, carregue mais
+   
     if (!hasVerticalScroll() && hasMorePokemons && !isLoading) {
         loadMorePokemons();
     }
 }
 
-// Converter Pokémon para HTML
+
 function convertPokemonToLi(pokemon) {
     const isFavorite = favorites.includes(pokemon.number)
     const favoriteClass = isFavorite ? 'favorited' : ''
@@ -235,7 +233,7 @@ function convertPokemonToLi(pokemon) {
     `
 }
 
-// Adicionar event listeners aos cards
+
 function addCardEventListeners() {
     document.querySelectorAll('.pokemon').forEach(card => {
         card.addEventListener('click', (e) => {
@@ -250,7 +248,7 @@ function addCardEventListeners() {
     })
 }
 
-// Alternar favorito
+
 function toggleFavorite(pokemonId, event) {
     event.stopPropagation()
     
@@ -263,7 +261,7 @@ function toggleFavorite(pokemonId, event) {
     
     localStorage.setItem('pokemonFavorites', JSON.stringify(favorites))
     
-    // Atualizar visual
+    
     const card = event.target.closest('.pokemon')
     const btn = event.target.closest('.favorite-btn')
     const icon = btn.querySelector('i')
@@ -279,7 +277,7 @@ function toggleFavorite(pokemonId, event) {
     }
 }
 
-// Mostrar detalhes do Pokémon
+
 function showPokemonDetails(pokemon) {
     const modalHtml = `
         <div class="pokemon-detail">
@@ -337,7 +335,7 @@ function showPokemonDetails(pokemon) {
     pokemonModal.style.display = 'block'
 }
 
-// Função para buscar Pokémon para comparação
+
 async function handleCompareSearch() {
     const searchTerm = compareSearchInput.value.toLowerCase().trim();
     if (searchTerm.length < 2) {
@@ -347,7 +345,7 @@ async function handleCompareSearch() {
     let filtered = allPokemons.filter(pokemon => 
         pokemon.name.toLowerCase().includes(searchTerm)
     ).slice(0, 10);
-    // Se não encontrou, tenta buscar na API
+    
     if (filtered.length === 0) {
         const fetched = await fetchPokemonByName(searchTerm);
         if (fetched && !allPokemons.some(p => p.number === fetched.number)) {
@@ -367,7 +365,7 @@ async function handleCompareSearch() {
     compareSearchResults.innerHTML = resultsHtml;
 }
 
-// Função para selecionar o segundo Pokémon para comparação
+
 function selectSecondPokemonForCompare(pokemonId) {
     const pokemon = allPokemons.find(p => p.number === pokemonId)
     if (pokemon) {
@@ -377,7 +375,7 @@ function selectSecondPokemonForCompare(pokemonId) {
     }
 }
 
-// Atualizar a função addToCompare
+
 function addToCompare(pokemonId) {
     const pokemon = allPokemons.find(p => p.number === pokemonId)
     if (pokemon) {
@@ -389,14 +387,14 @@ function addToCompare(pokemonId) {
     }
 }
 
-// Função para comparar estatísticas
+
 function compareStats(stat1, stat2) {
     if (stat1 > stat2) return 'better'
     if (stat1 < stat2) return 'worse'
     return 'equal'
 }
 
-// Atualizar a função showCompareModal
+
 function showCompareModal() {
     if (!firstPokemonForCompare || !secondPokemonForCompare) return
     
@@ -448,7 +446,7 @@ function showCompareModal() {
     compareModal.style.display = 'block'
 }
 
-// Fechar modais
+
 function closeModals() {
     pokemonModal.style.display = 'none'
     compareModal.style.display = 'none'
@@ -458,19 +456,19 @@ function closeModals() {
     selectedPokemons = []
 }
 
-// Função para scroll infinito
+
 function handleInfiniteScroll() {
     if (isLoading || !hasMorePokemons) return
     
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement
     
-    // Carregar mais quando estiver próximo do final
+    
     if (scrollTop + clientHeight >= scrollHeight - 100) {
         loadMorePokemons()
     }
 }
 
-// Função para carregar mais Pokémons
+
 function loadMorePokemons() {
     if (isLoading || !hasMorePokemons) return
     
@@ -487,15 +485,15 @@ function loadMorePokemons() {
         loadPokemonItens(offset, limit)
     }
     
-    // Reset loading após um delay
+    
     setTimeout(() => {
         isLoading = false
     }, 1000)
 }
 
-// Mostrar loading
+
 function showLoading() {
-    // Criar indicador de loading no final da lista
+   
     const loadingHtml = `
         <div class="loading-container">
             <div class="spinner"></div>
@@ -503,16 +501,16 @@ function showLoading() {
         </div>
     `
     
-    // Adicionar ao final da lista
+
     const loadingElement = document.createElement('div')
     loadingElement.innerHTML = loadingHtml
     loadingElement.className = 'loading-indicator'
     pokemonList.appendChild(loadingElement)
 }
 
-// Esconder loading
+
 function hideLoading() {
-    // Remover indicador de loading
+    
     const loadingIndicator = document.querySelector('.loading-indicator')
     if (loadingIndicator) {
         loadingIndicator.remove()

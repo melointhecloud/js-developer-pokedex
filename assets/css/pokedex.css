@@ -14,7 +14,6 @@
     }
 }
 
-/* Type colors with glassmorphism */
 .normal {
     background: linear-gradient(135deg, #a6a877, rgba(166, 168, 119, 0.8));
     backdrop-filter: blur(8px);
@@ -220,11 +219,10 @@
     transform: scale(1.1);
 }
 
-/* Favorite button */
 .favorite-btn {
     position: absolute;
     top: 0.5rem;
-    left: 0.5rem;  /* Mudou de right para left */
+    left: 0.5rem; 
     background: none;
     border: none;
     color: #fff;
@@ -245,7 +243,6 @@
     opacity: 1;
 }
 
-/* Modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -299,7 +296,6 @@
     color: var(--text-primary);
 }
 
-/* Pokemon detail modal */
 .pokemon-detail {
     text-align: center;
 }
@@ -395,7 +391,6 @@
     text-align: right;
 }
 
-/* Compare modal */
 .compare-modal {
     max-width: 900px;
 }
@@ -432,7 +427,6 @@
     color: var(--text-secondary);
 }
 
-/* Loading indicator */
 .loading-container {
     display: flex;
     flex-direction: column;
@@ -448,12 +442,10 @@
     font-size: 0.9rem;
 }
 
-/* Remover estilos do botão de paginação */
 .pagination {
     display: none;
 }
 
-/* Melhorar o spinner */
 .spinner {
     width: 40px;
     height: 40px;
@@ -468,13 +460,11 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Type icons */
 .type-icon {
     margin-right: 0.25rem;
     font-size: 0.8rem;
 }
 
-/* Compare button */
 .compare-btn {
     background: linear-gradient(135deg, #6c79db, #8b9eff);
     color: white;
@@ -538,7 +528,6 @@
     }
 }
 
-/* Compare search modal */
 .compare-search-modal {
     max-width: 500px;
 }
@@ -547,7 +536,6 @@
     margin-top: 1rem;
 }
 
-/* Compare search input styles */
 .search-input-container {
     position: relative;
     margin-bottom: 1rem;
@@ -570,7 +558,6 @@
     box-shadow: 0 0 0 2px rgba(108, 121, 219, 0.2);
 }
 
-/* Centralizar o ícone de busca */
 .search-input-container .search-icon {
     position: absolute;
     left: 1rem;
@@ -626,7 +613,6 @@
     color: var(--text-secondary);
 }
 
-/* Compare stats with colors */
 .compare-stat {
     font-size: 0.8rem;
     color: var(--text-secondary);
@@ -654,7 +640,6 @@
     font-weight: bold;
 }
 
-/* Compare cards */
 .compare-pokemon-card {
     text-align: center;
     padding: 1rem;
@@ -703,7 +688,6 @@
     text-align: center;
 }
 
-/* Compare container */
 .compare-pokemons-container {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -725,7 +709,6 @@
     margin: 0 auto;
 }
 
-/* Compare stats with colors */
 .compare-stat {
     font-size: 0.8rem;
     color: var(--text-secondary);
@@ -759,7 +742,6 @@
     font-weight: bold;
 }
 
-/* Responsive compare */
 @media screen and (max-width: 768px) {
     .compare-pokemons-container {
         grid-template-columns: 1fr;
@@ -777,7 +759,6 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /* Para efeito escurecido e não atrapalhar a leitura */
     position: relative;
 }
 
@@ -785,7 +766,7 @@ body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4); /* escurece o fundo */
+    background: rgba(0,0,0,0.4); 
     z-index: 0;
     pointer-events: none;
 }

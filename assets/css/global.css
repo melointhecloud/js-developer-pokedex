@@ -39,7 +39,6 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* Header Styles */
 .header {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
@@ -116,7 +115,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Filters */
 .filters {
     display: flex;
     gap: 1rem;
